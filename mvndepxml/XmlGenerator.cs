@@ -1,4 +1,5 @@
 ﻿using System;
+using System.CodeDom;
 using System.Linq;
 using System.Xml.Linq;
 
@@ -29,6 +30,14 @@ namespace mvndepxml
             foreach (var node in currentNode.Children)
             {
                 var xmlChild = new XElement(DependencyElmName, node.Content);
+                var info = new MavenDepInfo(node.Content);
+                foreach (var propName in MavenDepInfo.PropNames)
+                {
+                    var value = info.GetProperty(propName);
+                    if (value == null) continue;
+                    xmlChild.Add(new XAttribute(propName, value));
+                }
+                xmlChild.Add(new XAttribute("isReference", info.IsReference));
                 xmlElm.Add(xmlChild);
                 GenerateXml(xmlChild, node);
             }
