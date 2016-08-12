@@ -21,12 +21,12 @@ namespace mvndepxml
             var settings = new XmlWriterSettings()
             {
                 Indent = true,
-                IndentChars = "\t",
+                IndentChars = "  ",
                 Encoding = Encoding.UTF8
             };
             using (var writer = XmlWriter.Create(builder, settings))
             {
-                doc.Save(writer);
+                doc.WriteTo(writer);
                 writer.Flush();
             }
             return builder.ToString();

@@ -21,17 +21,17 @@ namespace mvndepxml
         private const char ReferenceEnd = ')';
 
         public bool IsReference { get; private set; }
-        public string GroupId { get { return _properties[PropGroupId]; } }
+        public string GroupId { get { return  GetProperty(PropGroupId); } }
 
-        public string AritifactId { get { return _properties[PropArtifactId]; } }
+        public string AritifactId { get { return GetProperty(PropArtifactId); } }
 
-        public string Package { get { return _properties[PropPackage]; } }
+        public string Package { get { return GetProperty(PropPackage); } }
 
-        public string Version { get { return _properties[PropVersion]; } }
+        public string Version { get { return GetProperty(PropVersion); } }
 
-        public string Scope { get { return _properties[PropScope]; } }
+        public string Scope { get { return GetProperty(PropScope); } }
 
-        public string Comments { get { return _properties[PropComments]; } }
+        public string Comments { get { return GetProperty(PropComments); } }
 
         private readonly IDictionary<string, string> _properties = new Dictionary<string, string>();
 
