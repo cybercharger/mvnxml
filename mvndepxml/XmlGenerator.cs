@@ -24,7 +24,7 @@ namespace mvndepxml
             return doc;
         }
 
-        private static void GenerateXml(XContainer xmlElm, Node currentNode)
+        public static void GenerateXml(XContainer xmlElm, Node currentNode)
         {
             if (currentNode.Children == null || !currentNode.Children.Any()) return;
             foreach (var node in currentNode.Children)

@@ -90,20 +90,20 @@ namespace mvndepxml
             return Content;
         }
 
-        public void Print(Action<Node> action)
+        public void Traverse(Action<Node> action)
         {
             if (action == null) throw new ArgumentNullException("action");
-            RecursivelyPrint(action, this);
+            RecursivelyTraverse(action, this);
         }
 
-        private static void RecursivelyPrint(Action<Node> action, Node current)
+        private static void RecursivelyTraverse(Action<Node> action, Node current)
         {
             if (current == null) throw new ArgumentNullException("current");
             action(current);
             if (current.Children == null || !current.Children.Any()) return;
             foreach (var child in current.Children)
             {
-                RecursivelyPrint(action, child);
+                RecursivelyTraverse(action, child);
             }
         }
     }

@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Text;
+using System.Xml;
 
 namespace mvndepxml
 {
@@ -7,19 +9,27 @@ namespace mvndepxml
         static void Main(string[] args)
         {
             if (args.Length != 1) throw new ArgumentException("please pass in result file of running 'mvn dependency:tree -Dverbose -DoutputFile=%res_file%");
-           GenerateXml(args[0]);
+            var result = GenerateXml(args[0]);
+            Console.WriteLine(result);
         }
 
-        static void GenerateXml(string fileName)
+        static string GenerateXml(string fileName)
         {
             var root = Node.Load(fileName);
-            root.Print(n =>
-            {
-                for(var i = 0; i < n.Depth; ++i) Console.Write('-');
-                Console.WriteLine(n.Content);
-            });
             var doc = XmlGenerator.GenerateDocument(root);
-            doc.Save("test.xml");
+            var builder = new StringBuilder();
+            var settings = new XmlWriterSettings()
+            {
+                Indent = true,
+                IndentChars = "\t",
+                Encoding = Encoding.UTF8
+            };
+            using (var writer = XmlWriter.Create("test.xml", settings))
+            {
+                doc.Save(writer);
+                writer.Flush();
+            }
+            return builder.ToString();
         }
 
     }
