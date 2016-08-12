@@ -24,7 +24,7 @@ namespace mvndepxml
                 IndentChars = "\t",
                 Encoding = Encoding.UTF8
             };
-            using (var writer = XmlWriter.Create("test.xml", settings))
+            using (var writer = XmlWriter.Create(builder, settings))
             {
                 doc.Save(writer);
                 writer.Flush();
