@@ -33,8 +33,13 @@ namespace mvndepxml
         {
             var parent = new Node("dependencies", null, -1);
             text.Aggregate(parent, (current, s) => Generate(s, current));
-            
-            return parent.Children != null && parent.Children.Count() == 1 ? parent.Children[0] : null;
+            if (parent.Children == null) return null;
+            if (parent.Children.Count != 1)
+            {
+                throw new InvalidDataException(string.Format("more than one component found: {0}", string.Join(", ", parent.Children)));
+            }
+            parent.Children[0].Parent = null;
+            return parent.Children[0];
         }
 
         private const string ChildIndicator = "+- ";
@@ -63,7 +68,7 @@ namespace mvndepxml
             }
             else
             {
-                for (var i = depth - previous.Depth + 1; i > 0; --i)
+                for (var i = previous.Depth - depth + 1; i > 0; --i)
                 {
                     newParent = newParent.Parent;
                 }

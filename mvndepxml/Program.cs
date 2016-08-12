@@ -18,6 +18,8 @@ namespace mvndepxml
                 for(var i = 0; i < n.Depth; ++i) Console.Write('-');
                 Console.WriteLine(n.Content);
             });
+            var doc = XmlGenerator.GenerateDocument(root);
+            doc.Save("test.xml");
         }
 
     }
