@@ -19,7 +19,7 @@ namespace mvndepxml
             var root = Node.Load(fileName);
             var doc = XmlGenerator.GenerateDocument(root);
             var settings = new XmlWriterSettings { Indent = true };
-            //StringBuild is always encoded as utf-16, so using a MemoryStream to enforce utf-8 encoding
+            //StringBuilder is always encoded as utf-16, so using a MemoryStream to enforce utf-8 encoding
             using (var memStream = new MemoryStream())
             {
                 using (var writer = XmlWriter.Create(memStream, settings))
