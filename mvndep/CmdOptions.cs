@@ -14,6 +14,9 @@ namespace mvndep
         [Option('d', "directDepList", Required = false, DefaultValue = null, HelpText = "plain text file of direct dependency list")]
         public string DirectDepListFile { get; set; }
 
+        [Option('p', "pom", Required = false, DefaultValue = null, HelpText = "pom dependency management section")]
+        public string PomDepManagement { get; set; }
+
         [HelpOption]
         public string GetUsage()
         {
