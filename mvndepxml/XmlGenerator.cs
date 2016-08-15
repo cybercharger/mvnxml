@@ -1,5 +1,4 @@
 ﻿using System;
-using System.CodeDom;
 using System.Linq;
 using System.Xml.Linq;
 
@@ -9,6 +8,7 @@ namespace mvndepxml
     {
         public const string RootElmName = "component";
         public const string DependencyElmName = "dependency";
+        public const string IsReferenceAttrName = "isRef";
         public static XDocument GenerateDocument(Node root)
         {
             return CreateDocument(root);
@@ -45,7 +45,7 @@ namespace mvndepxml
                     if (value == null) continue;
                     xmlChild.Add(new XAttribute(propName, value));
                 }
-                xmlChild.Add(new XAttribute("isReference", info.IsReference));
+                xmlChild.Add(new XAttribute(IsReferenceAttrName, info.IsReference));
                 xmlElm.Add(xmlChild);
                 GenerateXml(xmlChild, node);
             }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Text;
 using System.Xml;
 
@@ -17,19 +18,17 @@ namespace mvndepxml
         {
             var root = Node.Load(fileName);
             var doc = XmlGenerator.GenerateDocument(root);
-            var builder = new StringBuilder();
-            var settings = new XmlWriterSettings()
+            var settings = new XmlWriterSettings { Indent = true };
+            //StringBuild is always encoded as utf-16, so using a MemoryStream to enforce utf-8 encoding
+            using (var memStream = new MemoryStream())
             {
-                Indent = true,
-                IndentChars = "  ",
-                Encoding = Encoding.UTF8
-            };
-            using (var writer = XmlWriter.Create(builder, settings))
-            {
-                doc.WriteTo(writer);
-                writer.Flush();
+                using (var writer = XmlWriter.Create(memStream, settings))
+                {
+                    doc.Save(writer);
+                    writer.Flush();
+                }
+                return Encoding.UTF8.GetString(memStream.ToArray());
             }
-            return builder.ToString();
         }
 
     }
