@@ -1,7 +1,10 @@
-﻿using System;
+﻿
+using System;
 using System.IO;
 using System.Text;
 using System.Xml;
+using System.Xml.Linq;
+using System.Xml.XPath;
 using mvndepxml;
 
 namespace mvndep
@@ -10,27 +13,37 @@ namespace mvndep
     {
         static void Main(string[] args)
         {
-            if (args.Length != 1) throw new ArgumentException("please pass in result file of running 'mvn dependency:tree -Dverbose -DoutputFile=%res_file%");
-            var result = GenerateXml(args[0]);
-            Console.WriteLine(result);
+            var cmdOptions = new CmdOptions();
+            if (!CommandLine.Parser.Default.ParseArguments(args, cmdOptions))
+            {
+                return;
+            }
+            GenerateResult(cmdOptions);
+
         }
 
-        static string GenerateXml(string fileName)
+        static void GenerateResult(CmdOptions options)
         {
-            var root = Node.Load(fileName);
+            var root = Node.Load(options.InputFile);
+            GenerateXml(root, options.OutputFile);
+            if (string.IsNullOrEmpty(options.DirectDepListFile)) return;
+            var sb = new StringBuilder();
+            foreach (var child in root.Children)
+            {
+                sb.Append(child.DepInfo + Environment.NewLine);
+            }
+            File.WriteAllText(options.DirectDepListFile, sb.ToString());
+        }
+
+        static void GenerateXml(Node root, string outputFile)
+        {
             var doc = XmlGenerator.GenerateDocument(root);
             var settings = new XmlWriterSettings { Indent = true };
-            //StringBuilder is always encoded as utf-16, so using a MemoryStream to enforce utf-8 encoding
-            using (var memStream = new MemoryStream())
+            using (var writer = XmlWriter.Create(outputFile, settings))
             {
-                using (var writer = XmlWriter.Create(memStream, settings))
-                {
-                    doc.Save(writer);
-                    writer.Flush();
-                }
-                return Encoding.UTF8.GetString(memStream.ToArray());
+                doc.Save(writer);
+                writer.Flush();
             }
         }
-
     }
 }

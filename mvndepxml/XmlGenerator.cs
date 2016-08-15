@@ -21,13 +21,7 @@ namespace mvndepxml
             var doc = new XDocument();
             var rootElm = new XElement(RootElmName, null);
             doc.Add(rootElm);
-            var info = new MavenDepInfo(root.Content);
-            foreach (var propName in MavenDepInfo.PropNames)
-            {
-                var value = info.GetProperty(propName);
-                if (value == null) continue;
-                rootElm.Add(new XAttribute(propName, value));
-            }
+            SetAttributes(rootElm, root.DepInfo);
             GenerateXml(doc.Root, root);
             return doc;
         }
@@ -38,17 +32,21 @@ namespace mvndepxml
             foreach (var node in currentNode.Children)
             {
                 var xmlChild = new XElement(DependencyElmName, null);
-                var info = new MavenDepInfo(node.Content);
-                foreach (var propName in MavenDepInfo.PropNames)
-                {
-                    var value = info.GetProperty(propName);
-                    if (value == null) continue;
-                    xmlChild.Add(new XAttribute(propName, value));
-                }
-                xmlChild.Add(new XAttribute(IsReferenceAttrName, info.IsReference));
+                SetAttributes(xmlChild, node.DepInfo);
                 xmlElm.Add(xmlChild);
                 GenerateXml(xmlChild, node);
             }
+        }
+
+        private static void SetAttributes(XContainer element, MavenDepInfo info)
+        {
+            foreach (var propName in MavenDepInfo.PropNames)
+            {
+                var value = info.GetProperty(propName);
+                if (value == null) continue;
+                element.Add(new XAttribute(propName, value));
+            }
+            element.Add(new XAttribute(IsReferenceAttrName, info.IsReference));
         }
     }
 }

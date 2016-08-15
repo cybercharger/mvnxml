@@ -7,7 +7,7 @@ namespace mvndepxml
 {
     public class Node
     {
-        public string Content { get; private set; }
+        public MavenDepInfo DepInfo { get; private set; }
 
         public int Depth { get; private set; }
 
@@ -18,7 +18,7 @@ namespace mvndepxml
         private Node(string content, Node parent, int depth)
         {
             if (string.IsNullOrEmpty(content)) throw new ArgumentNullException("content");
-            Content = content;
+            DepInfo = new MavenDepInfo(content);
             Parent = parent;
             Depth = depth;
             Children = new List<Node>();
@@ -61,7 +61,7 @@ namespace mvndepxml
             if (depth - previous.Depth > 2)
             {
                 throw new InvalidDataException(string.Format("Depth of {0} is {1} where previous {2} depth is {3}",
-                    content, depth, previous.Content, previous.Depth));
+                    content, depth, previous.DepInfo, previous.Depth));
             }
             if (depth == previous.Depth)
             {
@@ -92,7 +92,7 @@ namespace mvndepxml
 
         public override string ToString()
         {
-            return Content;
+            return DepInfo.ToString();
         }
 
         public void Traverse(Action<Node> action)

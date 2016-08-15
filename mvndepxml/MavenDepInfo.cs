@@ -21,6 +21,7 @@ namespace mvndepxml
         private const char ReferenceEnd = ')';
 
         public bool IsReference { get; private set; }
+
         public string GroupId { get { return  GetProperty(PropGroupId); } }
 
         public string AritifactId { get { return GetProperty(PropArtifactId); } }
@@ -33,11 +34,14 @@ namespace mvndepxml
 
         public string Comments { get { return GetProperty(PropComments); } }
 
+        private readonly string _content;
+
         private readonly IDictionary<string, string> _properties = new Dictionary<string, string>();
 
         public MavenDepInfo(string content)
         {
             if (string.IsNullOrEmpty(content)) throw new ArgumentNullException("content");
+            _content = content;
             if (content.StartsWith(ReferenceStart.ToString()))
             {
                 IsReference = true;
@@ -59,6 +63,11 @@ namespace mvndepxml
         {
             if (string.IsNullOrEmpty(key)) return null;
             return _properties.ContainsKey(key) ? _properties[key] : null;
+        }
+
+        public override string ToString()
+        {
+            return _content;
         }
     }
 }
