@@ -5,6 +5,16 @@ VisualStudioVersion = 12.0.21005.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mvndepxml", "mvndepxml\mvndepxml.csproj", "{0BC2EF09-925C-4AED-A385-18DF4B0E699D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mvndep", "mvndep\mvndep.csproj", "{EA2B3C40-BF59-4FEA-9421-45E1595BA75F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "dependencies", "dependencies", "{7ADB24C3-C10B-48AB-B8BA-29063B4AD9D6}"
+	ProjectSection(SolutionItems) = preProject
+		dependencies\CommandLine.dll = dependencies\CommandLine.dll
+		dependencies\CommandLine.XML = dependencies\CommandLine.XML
+		dependencies\log4net.dll = dependencies\log4net.dll
+		dependencies\log4net.xml = dependencies\log4net.xml
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +25,10 @@ Global
 		{0BC2EF09-925C-4AED-A385-18DF4B0E699D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0BC2EF09-925C-4AED-A385-18DF4B0E699D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0BC2EF09-925C-4AED-A385-18DF4B0E699D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EA2B3C40-BF59-4FEA-9421-45E1595BA75F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EA2B3C40-BF59-4FEA-9421-45E1595BA75F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EA2B3C40-BF59-4FEA-9421-45E1595BA75F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EA2B3C40-BF59-4FEA-9421-45E1595BA75F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

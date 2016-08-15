@@ -26,7 +26,12 @@ namespace mvndepxml
 
         public static Node Load(string file)
         {
-            return GenerateNode(File.ReadAllLines(file));
+            return Parse(File.ReadAllLines(file));
+        }
+
+        public static Node Parse(string[] mvnDepTreeText)
+        {
+            return GenerateNode(mvnDepTreeText);
         }
 
         private static Node GenerateNode(IEnumerable<string> text)

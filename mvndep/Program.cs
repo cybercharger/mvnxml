@@ -2,8 +2,9 @@
 using System.IO;
 using System.Text;
 using System.Xml;
+using mvndepxml;
 
-namespace mvndepxml
+namespace mvndep
 {
     class Program
     {
